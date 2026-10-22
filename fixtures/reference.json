@@ -1,0 +1,1157 @@
+{
+  "oracle": "pycddl==0.6.4 (Rust CDDL), cbor2==5.6.5 encoder",
+  "profile": "rfc8610-structural-v1",
+  "referenceDeviations": [
+    {
+      "id": 20,
+      "label": "negative integers",
+      "value": "0",
+      "specified": false,
+      "oracle": true
+    },
+    {
+      "id": 21,
+      "label": "negative integers",
+      "value": "1",
+      "specified": false,
+      "oracle": true
+    },
+    {
+      "id": 23,
+      "label": "closed range",
+      "value": "-2",
+      "specified": true,
+      "oracle": false
+    },
+    {
+      "id": 24,
+      "label": "closed range",
+      "value": "0",
+      "specified": true,
+      "oracle": false
+    },
+    {
+      "id": 25,
+      "label": "closed range",
+      "value": "3",
+      "specified": true,
+      "oracle": false
+    },
+    {
+      "id": 50,
+      "label": "byte size",
+      "value": "'ab'",
+      "specified": false,
+      "oracle": true
+    },
+    {
+      "id": 54,
+      "label": "uint capacity",
+      "value": "-1",
+      "specified": false,
+      "oracle": true
+    },
+    {
+      "id": 80,
+      "label": "repeat and required tail",
+      "value": "[]",
+      "specified": false,
+      "oracle": true
+    },
+    {
+      "id": 83,
+      "label": "optional and required tail",
+      "value": "[1, 2]",
+      "specified": true,
+      "oracle": false
+    },
+    {
+      "id": 84,
+      "label": "optional and required tail",
+      "value": "[]",
+      "specified": false,
+      "oracle": true
+    },
+    {
+      "id": 126,
+      "label": "recursive tree",
+      "value": "[1, [False]]",
+      "specified": false,
+      "oracle": true
+    }
+  ],
+  "cases": [
+    {
+      "id": 0,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "00",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 1,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "20",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 2,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "07",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 3,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "1b7fffffffffffffff",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 4,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "3b7fffffffffffffff",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 5,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "f4",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 6,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "f6",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 7,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "6131",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 8,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "fb3ff8000000000000",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 9,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "80",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 10,
+      "label": "signed integers",
+      "schema": "root = int",
+      "hex": "a0",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 11,
+      "label": "unsigned integers",
+      "schema": "root = uint",
+      "hex": "00",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 12,
+      "label": "unsigned integers",
+      "schema": "root = uint",
+      "hex": "01",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 13,
+      "label": "unsigned integers",
+      "schema": "root = uint",
+      "hex": "18ff",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 14,
+      "label": "unsigned integers",
+      "schema": "root = uint",
+      "hex": "20",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 15,
+      "label": "unsigned integers",
+      "schema": "root = uint",
+      "hex": "f5",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 16,
+      "label": "unsigned integers",
+      "schema": "root = uint",
+      "hex": "6131",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 17,
+      "label": "unsigned integers",
+      "schema": "root = uint",
+      "hex": "fb3fd0000000000000",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 18,
+      "label": "negative integers",
+      "schema": "root = nint",
+      "hex": "20",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 19,
+      "label": "negative integers",
+      "schema": "root = nint",
+      "hex": "33",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 20,
+      "label": "negative integers",
+      "schema": "root = nint",
+      "hex": "00",
+      "expected": false,
+      "referenceActual": true
+    },
+    {
+      "id": 21,
+      "label": "negative integers",
+      "schema": "root = nint",
+      "hex": "01",
+      "expected": false,
+      "referenceActual": true
+    },
+    {
+      "id": 22,
+      "label": "negative integers",
+      "schema": "root = nint",
+      "hex": "fbbfe0000000000000",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 23,
+      "label": "closed range",
+      "schema": "root = -2..3",
+      "hex": "21",
+      "expected": true,
+      "referenceActual": false
+    },
+    {
+      "id": 24,
+      "label": "closed range",
+      "schema": "root = -2..3",
+      "hex": "00",
+      "expected": true,
+      "referenceActual": false
+    },
+    {
+      "id": 25,
+      "label": "closed range",
+      "schema": "root = -2..3",
+      "hex": "03",
+      "expected": true,
+      "referenceActual": false
+    },
+    {
+      "id": 26,
+      "label": "closed range",
+      "schema": "root = -2..3",
+      "hex": "22",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 27,
+      "label": "closed range",
+      "schema": "root = -2..3",
+      "hex": "04",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 28,
+      "label": "closed range",
+      "schema": "root = -2..3",
+      "hex": "f5",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 29,
+      "label": "closed range",
+      "schema": "root = -2..3",
+      "hex": "fb4004000000000000",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 30,
+      "label": "half open range",
+      "schema": "root = 0...3",
+      "hex": "00",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 31,
+      "label": "half open range",
+      "schema": "root = 0...3",
+      "hex": "02",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 32,
+      "label": "half open range",
+      "schema": "root = 0...3",
+      "hex": "20",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 33,
+      "label": "half open range",
+      "schema": "root = 0...3",
+      "hex": "03",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 34,
+      "label": "half open range",
+      "schema": "root = 0...3",
+      "hex": "fb4004000000000000",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 35,
+      "label": "text byte size",
+      "schema": "root = tstr .size 3",
+      "hex": "63636174",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 36,
+      "label": "text byte size",
+      "schema": "root = tstr .size 3",
+      "hex": "63e78cab",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 37,
+      "label": "text byte size",
+      "schema": "root = tstr .size 3",
+      "hex": "60",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 38,
+      "label": "text byte size",
+      "schema": "root = tstr .size 3",
+      "hex": "6161",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 39,
+      "label": "text byte size",
+      "schema": "root = tstr .size 3",
+      "hex": "64f09f90b1",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 40,
+      "label": "text byte size",
+      "schema": "root = tstr .size 3",
+      "hex": "62c3a9",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 41,
+      "label": "text size interval",
+      "schema": "root = tstr .size (1..4)",
+      "hex": "6161",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 42,
+      "label": "text size interval",
+      "schema": "root = tstr .size (1..4)",
+      "hex": "63e78cab",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 43,
+      "label": "text size interval",
+      "schema": "root = tstr .size (1..4)",
+      "hex": "64f09f90b1",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 44,
+      "label": "text size interval",
+      "schema": "root = tstr .size (1..4)",
+      "hex": "60",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 45,
+      "label": "text size interval",
+      "schema": "root = tstr .size (1..4)",
+      "hex": "656162636465",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 46,
+      "label": "byte size",
+      "schema": "root = bstr .size 2",
+      "hex": "426162",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 47,
+      "label": "byte size",
+      "schema": "root = bstr .size 2",
+      "hex": "4200ff",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 48,
+      "label": "byte size",
+      "schema": "root = bstr .size 2",
+      "hex": "40",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 49,
+      "label": "byte size",
+      "schema": "root = bstr .size 2",
+      "hex": "4161",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 50,
+      "label": "byte size",
+      "schema": "root = bstr .size 2",
+      "hex": "626162",
+      "expected": false,
+      "referenceActual": true
+    },
+    {
+      "id": 51,
+      "label": "uint capacity",
+      "schema": "root = uint .size 1",
+      "hex": "00",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 52,
+      "label": "uint capacity",
+      "schema": "root = uint .size 1",
+      "hex": "01",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 53,
+      "label": "uint capacity",
+      "schema": "root = uint .size 1",
+      "hex": "18ff",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 54,
+      "label": "uint capacity",
+      "schema": "root = uint .size 1",
+      "hex": "20",
+      "expected": false,
+      "referenceActual": true
+    },
+    {
+      "id": 55,
+      "label": "uint capacity",
+      "schema": "root = uint .size 1",
+      "hex": "190100",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 56,
+      "label": "uint capacity",
+      "schema": "root = uint .size 1",
+      "hex": "f5",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 57,
+      "label": "literal choice",
+      "schema": "root = \"on\" / \"off\" / nil",
+      "hex": "626f6e",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 58,
+      "label": "literal choice",
+      "schema": "root = \"on\" / \"off\" / nil",
+      "hex": "636f6666",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 59,
+      "label": "literal choice",
+      "schema": "root = \"on\" / \"off\" / nil",
+      "hex": "f6",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 60,
+      "label": "literal choice",
+      "schema": "root = \"on\" / \"off\" / nil",
+      "hex": "60",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 61,
+      "label": "literal choice",
+      "schema": "root = \"on\" / \"off\" / nil",
+      "hex": "f5",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 62,
+      "label": "literal choice",
+      "schema": "root = \"on\" / \"off\" / nil",
+      "hex": "01",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 63,
+      "label": "boolean type",
+      "schema": "root = bool",
+      "hex": "f5",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 64,
+      "label": "boolean type",
+      "schema": "root = bool",
+      "hex": "f4",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 65,
+      "label": "boolean type",
+      "schema": "root = bool",
+      "hex": "00",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 66,
+      "label": "boolean type",
+      "schema": "root = bool",
+      "hex": "01",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 67,
+      "label": "boolean type",
+      "schema": "root = bool",
+      "hex": "f6",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 68,
+      "label": "float type",
+      "schema": "root = float",
+      "hex": "fb3ff4000000000000",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 69,
+      "label": "float type",
+      "schema": "root = float",
+      "hex": "fbbfe0000000000000",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 70,
+      "label": "float type",
+      "schema": "root = float",
+      "hex": "01",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 71,
+      "label": "float type",
+      "schema": "root = float",
+      "hex": "64312e3235",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 72,
+      "label": "float type",
+      "schema": "root = float",
+      "hex": "f6",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 73,
+      "label": "ordered tuple",
+      "schema": "root = [uint, tstr, bool]",
+      "hex": "83016178f5",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 74,
+      "label": "ordered tuple",
+      "schema": "root = [uint, tstr, bool]",
+      "hex": "80",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 75,
+      "label": "ordered tuple",
+      "schema": "root = [uint, tstr, bool]",
+      "hex": "82016178",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 76,
+      "label": "ordered tuple",
+      "schema": "root = [uint, tstr, bool]",
+      "hex": "83617801f5",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 77,
+      "label": "ordered tuple",
+      "schema": "root = [uint, tstr, bool]",
+      "hex": "84016178f502",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 78,
+      "label": "repeat and required tail",
+      "schema": "root = [* int, int]",
+      "hex": "8101",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 79,
+      "label": "repeat and required tail",
+      "schema": "root = [* int, int]",
+      "hex": "83010203",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 80,
+      "label": "repeat and required tail",
+      "schema": "root = [* int, int]",
+      "hex": "80",
+      "expected": false,
+      "referenceActual": true
+    },
+    {
+      "id": 81,
+      "label": "repeat and required tail",
+      "schema": "root = [* int, int]",
+      "hex": "81f4",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 82,
+      "label": "optional and required tail",
+      "schema": "root = [? int, int]",
+      "hex": "8101",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 83,
+      "label": "optional and required tail",
+      "schema": "root = [? int, int]",
+      "hex": "820102",
+      "expected": true,
+      "referenceActual": false
+    },
+    {
+      "id": 84,
+      "label": "optional and required tail",
+      "schema": "root = [? int, int]",
+      "hex": "80",
+      "expected": false,
+      "referenceActual": true
+    },
+    {
+      "id": 85,
+      "label": "optional and required tail",
+      "schema": "root = [? int, int]",
+      "hex": "83010203",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 86,
+      "label": "bounded repeat",
+      "schema": "root = [2*3 uint]",
+      "hex": "820001",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 87,
+      "label": "bounded repeat",
+      "schema": "root = [2*3 uint]",
+      "hex": "83000102",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 88,
+      "label": "bounded repeat",
+      "schema": "root = [2*3 uint]",
+      "hex": "80",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 89,
+      "label": "bounded repeat",
+      "schema": "root = [2*3 uint]",
+      "hex": "8100",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 90,
+      "label": "bounded repeat",
+      "schema": "root = [2*3 uint]",
+      "hex": "8400010203",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 91,
+      "label": "bounded repeat",
+      "schema": "root = [2*3 uint]",
+      "hex": "820020",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 92,
+      "label": "one or more",
+      "schema": "root = [+ bool]",
+      "hex": "81f5",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 93,
+      "label": "one or more",
+      "schema": "root = [+ bool]",
+      "hex": "82f4f5",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 94,
+      "label": "one or more",
+      "schema": "root = [+ bool]",
+      "hex": "80",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 95,
+      "label": "one or more",
+      "schema": "root = [+ bool]",
+      "hex": "82f500",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 96,
+      "label": "closed record",
+      "schema": "root = {id: uint, ? label: tstr}",
+      "hex": "a162696401",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 97,
+      "label": "closed record",
+      "schema": "root = {id: uint, ? label: tstr}",
+      "hex": "a2656c6162656c617862696400",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 98,
+      "label": "closed record",
+      "schema": "root = {id: uint, ? label: tstr}",
+      "hex": "a0",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 99,
+      "label": "closed record",
+      "schema": "root = {id: uint, ? label: tstr}",
+      "hex": "a162696420",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 100,
+      "label": "closed record",
+      "schema": "root = {id: uint, ? label: tstr}",
+      "hex": "a26269640165657874726100",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 101,
+      "label": "closed record",
+      "schema": "root = {id: uint, ? label: tstr}",
+      "hex": "a262696401656c6162656c02",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 102,
+      "label": "typed keys",
+      "schema": "root = {1: tstr, ? 2: bstr}",
+      "hex": "a1016161",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 103,
+      "label": "typed keys",
+      "schema": "root = {1: tstr, ? 2: bstr}",
+      "hex": "a2016161024178",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 104,
+      "label": "typed keys",
+      "schema": "root = {1: tstr, ? 2: bstr}",
+      "hex": "a0",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 105,
+      "label": "typed keys",
+      "schema": "root = {1: tstr, ? 2: bstr}",
+      "hex": "a2016161026178",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 106,
+      "label": "typed keys",
+      "schema": "root = {1: tstr, ? 2: bstr}",
+      "hex": "a161316161",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 107,
+      "label": "open dictionary",
+      "schema": "root = {* tstr => uint}",
+      "hex": "a0",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 108,
+      "label": "open dictionary",
+      "schema": "root = {* tstr => uint}",
+      "hex": "a2617801617902",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 109,
+      "label": "open dictionary",
+      "schema": "root = {* tstr => uint}",
+      "hex": "a1617820",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 110,
+      "label": "open dictionary",
+      "schema": "root = {* tstr => uint}",
+      "hex": "a10100",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 111,
+      "label": "bounded dictionary",
+      "schema": "root = {1*2 tstr => uint}",
+      "hex": "a1617801",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 112,
+      "label": "bounded dictionary",
+      "schema": "root = {1*2 tstr => uint}",
+      "hex": "a2616101616202",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 113,
+      "label": "bounded dictionary",
+      "schema": "root = {1*2 tstr => uint}",
+      "hex": "a0",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 114,
+      "label": "bounded dictionary",
+      "schema": "root = {1*2 tstr => uint}",
+      "hex": "a3616101616202616303",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 115,
+      "label": "mixed dictionary",
+      "schema": "root = {id: uint, * tstr => tstr}",
+      "hex": "a162696401",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 116,
+      "label": "mixed dictionary",
+      "schema": "root = {id: uint, * tstr => tstr}",
+      "hex": "a26269640161786179",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 117,
+      "label": "mixed dictionary",
+      "schema": "root = {id: uint, * tstr => tstr}",
+      "hex": "a262696401617802",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 118,
+      "label": "mixed dictionary",
+      "schema": "root = {id: uint, * tstr => tstr}",
+      "hex": "a161786179",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 119,
+      "label": "reference",
+      "schema": "root = [level, level] level = 0..3 / \"auto\"",
+      "hex": "8201646175746f",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 120,
+      "label": "reference",
+      "schema": "root = [level, level] level = 0..3 / \"auto\"",
+      "hex": "8204646175746f",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 121,
+      "label": "reference",
+      "schema": "root = [level, level] level = 0..3 / \"auto\"",
+      "hex": "81646175746f",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 122,
+      "label": "recursive tree",
+      "schema": "root = int / [* root]",
+      "hex": "01",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 123,
+      "label": "recursive tree",
+      "schema": "root = int / [* root]",
+      "hex": "80",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 124,
+      "label": "recursive tree",
+      "schema": "root = int / [* root]",
+      "hex": "8201820280",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 125,
+      "label": "recursive tree",
+      "schema": "root = int / [* root]",
+      "hex": "f6",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 126,
+      "label": "recursive tree",
+      "schema": "root = int / [* root]",
+      "hex": "820181f4",
+      "expected": false,
+      "referenceActual": true
+    },
+    {
+      "id": 127,
+      "label": "tagged bytes",
+      "schema": "root = #6.18(bstr .size 2)",
+      "hex": "d2426162",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 128,
+      "label": "tagged bytes",
+      "schema": "root = #6.18(bstr .size 2)",
+      "hex": "426162",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 129,
+      "label": "tagged bytes",
+      "schema": "root = #6.18(bstr .size 2)",
+      "hex": "d24161",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 130,
+      "label": "tagged bytes",
+      "schema": "root = #6.18(bstr .size 2)",
+      "hex": "d3426162",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 131,
+      "label": "nested service message",
+      "schema": "root = {version: 1, readings: [1*4 reading]} reading = {id: uint, value: int / nil}",
+      "hex": "a26776657273696f6e016872656164696e677381a2626964026576616c756523",
+      "expected": true,
+      "referenceActual": true
+    },
+    {
+      "id": 132,
+      "label": "nested service message",
+      "schema": "root = {version: 1, readings: [1*4 reading]} reading = {id: uint, value: int / nil}",
+      "hex": "a26776657273696f6e026872656164696e677380",
+      "expected": false,
+      "referenceActual": false
+    },
+    {
+      "id": 133,
+      "label": "nested service message",
+      "schema": "root = {version: 1, readings: [1*4 reading]} reading = {id: uint, value: int / nil}",
+      "hex": "a26776657273696f6e016872656164696e677381a262696461326576616c756500",
+      "expected": false,
+      "referenceActual": false
+    }
+  ]
+}
