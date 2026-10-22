@@ -13,9 +13,17 @@ Actual local environment: Windows, moon/moonrun 0.1.20261012, moonc v0.10.15+943
 - Adversarial checks include source/data depth, work budget, duplicate escaped JSON keys, duplicate CBOR keys, huge CBOR lengths, signed integer limits, lossy JSON integer rounding, schema alias cycles and unused unsupported rules.
 - `moon package` produced `_build/publish/Rindoncreate-mooncddl-0.1.0.zip`.
 
-## Pending external evidence
+## Confirmed remote evidence
 
-Linux native and remote CI must be verified on an actual run, not inferred from workflow YAML. Mooncakes registry upload and a separate clean consumer install are not yet performed. No official contest application or approval exists for this project.
+[CI run 39776757096](https://github.com/Rindoncreate/mooncddl/actions/runs/39776757096), source `9fce8e8835a551ea531f06502f049b8a6a5f937e`, completed successfully on 2026-10-22. The actual log confirms 23 test blocks passed on each of JS, Wasm, Wasm GC and Linux native; independent reference regeneration, CLI, package creation and `moon info` all passed. The JS-only Node bridge is excluded from native, while the compiler/validator/CBOR adapter are checked and tested there.
+
+Remote compiler: moon/moonrun 0.1.20261021, moonc v0.10.17+093cb8f9c. This verifies the source on a newer compiler than the local 0.10.15 installation; it does not mean the local compiler was upgraded.
+
+Two initial failed runs were retained: clean registry initialization was missing, then the JS export bridge was incorrectly linked as a native executable. Both were fixed with real follow-up commits, not by deleting test targets or ignoring failures.
+
+## Pending publication/application
+
+Mooncakes registry upload and a separate clean registry consumer install are not yet performed. No official contest application or approval exists for this project. A public repository and a successful CI run are not substitutes for those steps.
 
 ## Reproduction
 
