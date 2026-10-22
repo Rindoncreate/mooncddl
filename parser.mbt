@@ -330,7 +330,11 @@ fn check_refs(
       for child in nodes {
         check_refs(child, rules, depth + 1)
       }
-    Sized(child, _, _) | Tag(_, child) => check_refs(child, rules, depth + 1)
+    Sized(child, lower, upper) => {
+      check_refs(child, rules, depth + 1)
+      size_target(child, rules, lower, upper, 0)
+    }
+    Tag(_, child) => check_refs(child, rules, depth + 1)
     Sequence(entries) | Record(entries) =>
       for entry in entries {
         if entry.key is Some(key) {
@@ -339,6 +343,37 @@ fn check_refs(
         check_refs(entry.value, rules, depth + 1)
       }
     _ => ()
+  }
+}
+
+///|
+fn size_target(
+  node : Node,
+  rules : Map[String, Node],
+  lower : Int64,
+  upper : Int64,
+  depth : Int32,
+) -> Unit raise CddlError {
+  if depth > 64 {
+    raise InvalidSchema("cyclic or excessively deep .size target")
+  }
+  match node {
+    Primitive("tstr" | "text" | "bstr" | "bytes") => ()
+    Primitive("uint") =>
+      if lower != upper {
+        raise InvalidSchema(
+          "uint .size requires one capacity, not a size range",
+        )
+      }
+    Ref(name) =>
+      match rules.get(name) {
+        Some(child) => size_target(child, rules, lower, upper, depth + 1)
+        None => raise InvalidSchema("undefined .size target")
+      }
+    _ =>
+      raise Unsupported(
+        0, "profile v1 .size target must resolve to tstr, bstr or uint",
+      )
   }
 }
 

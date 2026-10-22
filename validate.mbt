@@ -3,6 +3,7 @@ priv struct Context {
   rules : Map[String, Node]
   root : String
   mut remaining : Int32
+  mut stack : Int32
   mut deepest : Int32
   mut diagnostic : Diagnostic
 }
@@ -19,8 +20,16 @@ fn Context::step(self : Context, depth : Int32) -> Unit raise CddlError {
 }
 
 ///|
+fn Context::enter(self : Context) -> Unit raise CddlError {
+  self.stack = self.stack + 1
+  if self.stack > 256 {
+    raise Limit("validation call stack exceeds 256 frames")
+  }
+}
+
+///|
 fn Context::reject(self : Context, path : String, message : String) -> Bool {
-  if path.length() >= self.deepest {
+  if path.length() > self.deepest || self.deepest == 0 {
     self.deepest = path.length()
     self.diagnostic = { path, rule: self.root, message, }
   }
@@ -42,6 +51,7 @@ pub fn Schema::validate(
     rules: self.rules,
     root: self.root,
     remaining: work_limit,
+    stack: 0,
     deepest: 0,
     diagnostic: {
       path: "",
@@ -133,6 +143,25 @@ fn json_preflight(text : String) -> Unit raise CddlError {
       }
       continue
     }
+    if (c >= '0' && c <= '9') || c == '-' {
+      let start = i
+      i = i + 1
+      while i < text.length() {
+        let d = text[i]
+        if (d >= '0' && d <= '9') ||
+          d == '.' ||
+          d == 'e' ||
+          d == 'E' ||
+          d == '+' ||
+          d == '-' {
+          i = i + 1
+        } else {
+          break
+        }
+      }
+      exact_json_integer(text[start:i].to_owned())
+      continue
+    }
     if c == '{' || c == '[' {
       kinds.push(c == '{')
       names.push(Map([]))
@@ -147,6 +176,73 @@ fn json_preflight(text : String) -> Unit raise CddlError {
       ignore(names.pop())
     }
     i = i + 1
+  }
+}
+
+///|
+/// Do not let floating-point rounding turn a fractional JSON token into a valid
+/// integer (e.g. 9007199254740990.1 or an underflowing 1e-999).
+fn exact_json_integer(raw : String) -> Unit raise CddlError {
+  if raw.length() > 1024 {
+    raise Limit("JSON numeric token exceeds 1024 units")
+  }
+  let json = @json.parse(raw) catch {
+    _ => raise InvalidData("invalid JSON number")
+  }
+  guard json is Number(n, ..) else { raise InvalidData("invalid JSON number") }
+  if n.is_nan() || n.is_inf() {
+    raise InvalidData("non-finite JSON number")
+  }
+  if @double.floor(n) != n {
+    return
+  }
+  let parts = raw.to_lower().split("e").to_array()
+  let exponent = if parts.length() == 2 {
+    @string.parse_int(parts[1]) catch {
+      _ => raise InvalidData("JSON exponent outside supported range")
+    }
+  } else {
+    0
+  }
+  if exponent < -10000 || exponent > 10000 {
+    raise InvalidData("JSON exponent outside supported range")
+  }
+  let mantissa = parts[0].to_owned()
+  let negative = mantissa.has_prefix("-")
+  let unsigned = if negative { mantissa[1:].to_owned() } else { mantissa }
+  let decimal = unsigned.split(".").to_array()
+  let fraction = if decimal.length() == 2 { decimal[1].length() } else { 0 }
+  let digits = unsigned.replace_all(old=".", new="")
+  let mut leading = 0
+  while leading < digits.length() && digits[leading] == '0' {
+    leading = leading + 1
+  }
+  if leading == digits.length() {
+    return
+  }
+  let digits = digits[leading:].to_owned()
+  let scale = exponent - fraction
+  let canonical = if scale >= 0 {
+    if digits.length() + scale > 16 {
+      raise InvalidData("JSON integer exceeds exact safe integer domain")
+    }
+    digits + "0".repeat(scale)
+  } else {
+    let cut = -scale
+    if cut >= digits.length() ||
+      !digits[digits.length() - cut:].iter().all(c => c == '0') {
+      raise InvalidData(
+        "fractional JSON number rounded to an integer; use CBOR or a representable number",
+      )
+    }
+    digits[:digits.length() - cut].to_owned()
+  }
+  let exact = @string.parse_int64(canonical) catch {
+    _ => raise InvalidData("JSON integer exceeds exact safe integer domain")
+  }
+  if exact > 9007199254740991L ||
+    (if negative { -exact } else { exact }) != n.to_int64() {
+    raise InvalidData("JSON integer exceeds exact safe integer domain")
   }
 }
 
@@ -196,6 +292,10 @@ fn check_value(
   ctx : Context,
   depth : Int32,
 ) -> Unit raise CddlError {
+  ctx.enter()
+  defer {
+    ctx.stack = ctx.stack - 1
+  }
   ctx.step(depth)
   match value {
     List(items) =>
@@ -253,6 +353,10 @@ fn matches(
   ctx : Context,
   depth : Int32,
 ) -> Bool raise CddlError {
+  ctx.enter()
+  defer {
+    ctx.stack = ctx.stack - 1
+  }
   ctx.step(depth)
   let ok = match node {
     Primitive(name) =>
@@ -360,6 +464,10 @@ fn sequence(
   ctx : Context,
   depth : Int32,
 ) -> Bool raise CddlError {
+  ctx.enter()
+  defer {
+    ctx.stack = ctx.stack - 1
+  }
   ctx.step(depth)
   if entry_index == entries.length() {
     return item_index == items.length()
@@ -412,6 +520,10 @@ fn record(
   ctx : Context,
   depth : Int32,
 ) -> Bool raise CddlError {
+  ctx.enter()
+  defer {
+    ctx.stack = ctx.stack - 1
+  }
   ctx.step(depth)
   if index == entries.length() {
     for i, occupied in used {

@@ -36,3 +36,29 @@ test "duplicate integer keys are rejected" {
     _ => fail("expected duplicate key error")
   }
 }
+
+///|
+test "wire lengths and signed integer limits are checked before codec" {
+  for
+    bytes in [
+      b"\x1b\x80\x00\x00\x00\x00\x00\x00\x00", b"\x3b\xff\xff\xff\xff\xff\xff\xff\xff",
+      b"\x9b\xff\xff\xff\xff\xff\xff\xff\xff", b"\x5f\x5f\xff\xff",
+    ] {
+    try @cbor.decode(bytes) catch {
+      _ => ()
+    } noraise {
+      _ => fail("expected bounded input error")
+    }
+  }
+}
+
+///|
+test "deep nesting is stopped before dependency recursion" {
+  let bytes = Bytes::from_array(Array::make(70, b'\x81') + [b'\x00'])
+  try @cbor.decode(bytes) catch {
+    @cddl.Limit(_) => ()
+    _ => fail("wrong error")
+  } noraise {
+    _ => fail("expected preflight depth limit")
+  }
+}
