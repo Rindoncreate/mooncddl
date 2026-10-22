@@ -29,6 +29,8 @@ jobs:
           python -m venv .venv
           .venv/bin/python -m pip install --only-binary=:all: -r tools/requirements.txt
           echo "PYTHON=$PWD/.venv/bin/python" >> "$GITHUB_ENV"
+      - name: Resolve pinned registry dependencies on the clean runner
+        run: moon update
       - name: Regenerate semantic partitions and reject unreviewed drift
         run: |
           "$PYTHON" tools/reference.py --check

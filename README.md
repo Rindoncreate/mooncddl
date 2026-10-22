@@ -40,6 +40,7 @@ moon test --target js --deny-warn
 需要 MoonBit CLI、Node.js 22+。Node 仅处理文件读写、UTF-8 解码、输出和退出状态；模式分析与全部校验逻辑在 MoonBit 中。
 
 ```sh
+moon update
 moon build --target js --deny-warn
 node bin/mooncddl.mjs check examples/service/schema.cddl examples/service/valid.json --json
 node bin/mooncddl.mjs check examples/device/schema.cddl examples/device/valid.cbor --input cbor --json
