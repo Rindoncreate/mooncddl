@@ -4,6 +4,8 @@ MoonBit 原生的标准 CDDL 数据结构模式编译与校验工具，MIT，作
 
 状态：0.1.0 本地首版已实现，尚未发布到 Mooncakes、未报名或通过赛事审核。公开仓库和远端 CI 状态见验收记录。
 
+公开源码：[Rindoncreate/mooncddl](https://github.com/Rindoncreate/mooncddl)。这是独立原创项目，之前的产品与上游维护 PR 均不计入本项目成果。
+
 CDDL 是 RFC 8610 定义的数据描述语言，不是本项目自创语言。输入一份模式，重复检查 JSON 或 CBOR 数据；输出匹配结果或带路径的错误。JSON Schema 验证器不直接解析 CDDL，CBOR 编解码器不自动提供 CDDL 的规则引用、重复项和结构匹配语义。
 
 ## 当前范围
