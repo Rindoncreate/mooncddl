@@ -1,0 +1,46 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      MOON_NATIVE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install official MoonBit toolchain
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Install independent reference engine
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --only-binary=:all: -r tools/requirements.txt
+          echo "PYTHON=$PWD/.venv/bin/python" >> "$GITHUB_ENV"
+      - name: Regenerate semantic partitions and reject unreviewed drift
+        run: |
+          "$PYTHON" tools/reference.py --check
+          "$PYTHON" tools/generate_moon_tests.py
+          moon fmt
+          git diff --exit-code -- cbor/reference_test.mbt fixtures/reference.json
+      - name: Verify all four backends, CLI and source package
+        run: node tools/verify.mjs
+      - name: Generate public API manifests
+        run: moon info
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: differential-report
+          path: _build/differential-report.json
