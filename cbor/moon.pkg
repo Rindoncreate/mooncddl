@@ -1,0 +1,4 @@
+import {
+  "Rindoncreate/mooncddl" @cddl,
+  "2515050242/cbor" @codec,
+}
