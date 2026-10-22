@@ -1,0 +1,8 @@
+import {
+  "Rindoncreate/mooncddl" @cddl,
+  "Rindoncreate/mooncddl/cbor" @adapter,
+}
+
+options(
+  link: { "js": { "exports": [ "check" ], "format": "esm" } },
+)

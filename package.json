@@ -1,0 +1,7 @@
+{
+  "name": "mooncddl-local-cli",
+  "private": true,
+  "type": "module",
+  "scripts": { "check": "node tools/verify.mjs", "cddl": "node bin/mooncddl.mjs" },
+  "engines": { "node": ">=22" }
+}
