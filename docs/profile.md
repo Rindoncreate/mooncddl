@@ -2,6 +2,8 @@
 
 This is a deliberately bounded **subset**, not a new language and not full RFC 8610 conformance. A schema either compiles in this profile or raises a schema/unsupported/limit error. Unsupported constructs must never become permissive `any`.
 
+The reusable compiler, validator and CBOR adapter target JS, Wasm, Wasm GC and native. The Node CLI's exported `bridge` package is JS-only; backend checks must not be described as a native Node host or native bridge executable.
+
 | RFC 8610 area | Profile behavior | Evidence |
 | --- | --- | --- |
 | 3.1 basic syntax | Decimal signed 64-bit integers, JSON-style text literals, semicolon comments, rule definitions, references, parenthesized types | core/adversarial tests; reference partitions |
