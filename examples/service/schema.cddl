@@ -1,0 +1,3 @@
+; Shared API event contract. No transport or business implementation in the core.
+message = { version: 1, request-id: tstr .size (1..64), readings: [1*8 reading] }
+reading = { sensor: uint, value: int / nil, ? unit: "C" / "F" }

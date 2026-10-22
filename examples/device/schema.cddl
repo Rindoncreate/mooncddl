@@ -1,0 +1,2 @@
+; Small binary frame: integer map keys, a fixed-size byte identifier and readings.
+frame = #6.100({ 1: bstr .size 4, 2: [1*16 int], ? 3: bool })

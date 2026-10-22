@@ -1,0 +1,3 @@
+; Tuple packet distinguishes wire version and opcode from the payload type.
+packet = [1, 0..3, payload]
+payload = { correlation: uint, ? body: tstr .size (0..256) } / [* uint]
